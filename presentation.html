@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tha It Chatbot Presentation</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-body: #18181b;
+            --bg-slide: #ffffff;
+            --color-text: #1f2937;
+            --color-accent: #f59e0b; /* Gold/Orange */
+            --color-code-bg: #282c34;
+            --font-th: 'Sarabun', sans-serif;
+            --font-en: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: var(--font-th);
+            color: var(--color-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            gap: 40px;
+        }
+
+        /* --- SLIDE CONTAINER --- */
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background-color: var(--bg-slide);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 {
+            font-family: var(--font-th);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 80px; }
+        h2 { font-size: 48px; margin-bottom: 20px; color: var(--color-text); }
+        h3 { font-size: 32px; margin-bottom: 10px; }
+        p { font-size: 24px; line-height: 1.6; color: #4b5563; }
+        
+        .accent { color: var(--color-accent); }
+        .text-white { color: white !important; }
+        .en-font { font-family: var(--font-en); }
+
+        /* --- LAYOUT UTILITIES --- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100%;
+        }
+
+        .content-pad {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .img-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- SLIDE 1: TITLE --- */
+        .slide-title {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1563804044796-6a5672a7409f?q=80&w=2560&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .title-box {
+            border-left: 10px solid var(--color-accent);
+            padding-left: 40px;
+            text-align: left;
+        }
+
+        /* --- SLIDE 3: CARDS --- */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding: 60px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .tech-card {
+            background: #f3f4f6;
+            height: 400px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.3s;
+            border-bottom: 6px solid var(--color-accent);
+        }
+
+        .tech-card i {
+            font-size: 80px;
+            margin-bottom: 30px;
+            color: var(--color-text);
+        }
+
+        /* --- CODE WINDOW --- */
+        .code-window {
+            background: var(--color-code-bg);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: var(--font-code);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 90%;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        pre { white-space: pre-wrap; font-size: 20px; color: #abb2bf; }
+        
+        /* Syntax Highlighting */
+        .kwd { color: #c678dd; font-weight: bold; } /* Keyword */
+        .cls { color: #e5c07b; } /* Class */
+        .func { color: #61afef; } /* Function */
+        .str { color: #98c379; } /* String */
+        .cmt { color: #5c6370; font-style: italic; } /* Comment */
+        .dec { color: #d19a66; } /* Decorator */
+
+        /* --- MOBILE MOCKUP --- */
+        .phone-frame {
+            width: 320px;
+            height: 600px;
+            border: 12px solid #1f2937;
+            border-radius: 40px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-notch {
+            width: 120px;
+            height: 25px;
+            background: #1f2937;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 10;
+        }
+
+        .chat-ui {
+            flex: 1;
+            background: #f9fafb;
+            padding: 40px 15px 15px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 85%;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .bubble.ai {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+
+        .bubble.user {
+            background: var(--color-accent);
+            color: white;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+        }
+
+        /* --- METRICS --- */
+        .metric-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+        }
+        .metric-val { font-size: 120px; font-weight: 900; color: var(--color-accent); font-family: var(--font-en); }
+        .metric-label { font-size: 32px; color: var(--color-text); font-weight: 600; margin-top: -20px; }
+
+        /* --- DIAGRAM --- */
+        .arch-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .arch-num {
+            width: 50px;
+            height: 50px;
+            background: var(--color-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            font-family: var(--font-en);
+        }
+
+        /* --- FOOTER NUMBERING --- */
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-family: var(--font-en);
+            color: #9ca3af;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide slide-title">
+        <div class="title-box">
+            <h1 class="text-white">แชทบอทท่าอิฐ</h1>
+            <h2 class="text-white en-font" style="font-weight: 400; margin-top: 10px;">
+                AI Assistant for Local Knowledge
+            </h2>
+            <p class="text-white en-font" style="opacity: 0.8;">Powered by RAG & SwiftUI</p>
+        </div>
+        <div class="slide-number">1</div>
+    </div>
+
+    <div class="slide grid-2">
+        <div style="position:relative;">
+            <img src="https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?q=80&w=1000&auto=format&fit=crop" class="img-cover" alt="Community">
+            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(245, 158, 11, 0.2);"></div>
+        </div>
+        <div class="content-pad">
+            <div style="margin-bottom: 50px;">
+                <h2 class="accent">The Problem</h2>
+                <h3>LLM ทั่วไปไม่รู้จัก "ท่าอิฐ"</h3>
+                <p>AI โมเดลใหญ่ (ChatGPT, Claude) มักตอบผิด (Hallucination) หรือไม่ทราบรายละเอียดเชิงลึกเกี่ยวกับประวัติศาสตร์และสถานที่ในท้องถิ่น</p>
+            </div>
+            <div>
+                <h2 class="accent">The Solution</h2>
+                <h3>RAG Architecture</h3>
+                <p>ระบบ Retrieval-Augmented Generation ดึงข้อมูลจริงจากฐานข้อมูลท้องถิ่น ก่อนส่งให้ AI ประมวลผลคำตอบ</p>
+            </div>
+        </div>
+        <div class="slide-number">2</div>
+    </div>
+
+    <div class="slide">
+        <div style="padding: 40px 60px 0 60px;">
+            <h2>Tech Stack</h2>
+        </div>
+        <div class="card-container">
+            <div class="tech-card">
+                <i class="fa-brands fa-swift" style="color: #F05138;"></i>
+                <h3>SwiftUI</h3>
+                <p>iOS Frontend</p>
+                <p style="font-size: 18px; color:#666;">Native Performance</p>
+            </div>
+            <div class="tech-card">
+                <i class="fa-brands fa-python" style="color: #3776AB;"></i>
+                <h3>Flask</h3>
+                <p>Python Backend</p>
+                <p style="font-size: 18px; color:#666;">API & Logic Layer</p>
+            </div>
+            <div class="tech-card">
+                <i class="fa-solid fa-database" style="color: var(--color-accent);"></i>
+                <h3>LangChain + FAISS</h3>
+                <p>RAG Engine</p>
+                <p style="font-size: 18px; color:#666;">Vector Search</p>
+            </div>
+        </div>
+        <div class="slide-number">3</div>
+    </div>
+
+    <div class="slide grid-2">
+        <div class="content-pad" style="background-color: #f9fafb;">
+            <h2>System Flow</h2>
+            <div style="margin-top: 30px;">
+                <div class="arch-step"><div class="arch-num">1</div> Ask (คำถามจาก User)</div>
+                <div class="arch-step"><div class="arch-num">2</div> Search (ค้นหาใน FAISS)</div>
+                <div class="arch-step"><div class="arch-num">3</div> Augment (สร้าง Prompt)</div>
+                <div class="arch-step"><div class="arch-num">4</div> Generate (LLM ตอบคำถาม)</div>
+            </div>
+        </div>
+        <div class="content-pad" style="align-items: center; justify-content: center;">
+            <div style="position: relative; width: 400px; height: 400px;">
+                <div style="position: absolute; top:0; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; background: #1f2937; border-radius: 50%; display:flex; justify-content:center; align-items:center; color:white;"><i class="fa-solid fa-user fa-2x"></i></div>
+                
+                <div style="position: absolute; bottom:0; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; background: var(--color-accent); border-radius: 50%; display:flex; justify-content:center; align-items:center; color:white; z-index:2;"><i class="fa-solid fa-brain fa-3x"></i></div>
+                
+                <div style="position: absolute; top: 50%; left: 0; width: 90px; height: 90px; background: #ddd; border-radius: 15px; display:flex; justify-content:center; align-items:center;"><i class="fa-solid fa-file-lines fa-2x"></i></div>
+                
+                <div style="position: absolute; top: 50%; right: 0; width: 90px; height: 90px; background: #ddd; border-radius: 15px; display:flex; justify-content:center; align-items:center;"><i class="fa-solid fa-server fa-2x"></i></div>
+                
+                <svg style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1;">
+                    <line x1="200" y1="100" x2="200" y2="280" stroke="#9ca3af" stroke-width="4" stroke-dasharray="10"/>
+                    <line x1="200" y1="280" x2="45" y2="200" stroke="#9ca3af" stroke-width="4" />
+                    <line x1="200" y1="280" x2="355" y2="200" stroke="#9ca3af" stroke-width="4" />
+                </svg>
+            </div>
+            <p style="margin-top: 20px; font-size: 18px; color: #666;">Data Flow Diagram</p>
+        </div>
+        <div class="slide-number">4</div>
+    </div>
+
+    <div class="slide grid-2">
+        <div class="content-pad" style="background: #111;">
+            <div class="code-window">
+                <div class="window-dots">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <code>
+<span class="kwd">class</span> <span class="cls">RAGEngine</span>:
+    <span class="kwd">def</span> <span class="func">__init__</span>(<span class="kwd">self</span>):
+        <span class="cmt"># Load Local Vector DB</span>
+        <span class="kwd">self</span>.db = <span class="cls">FAISS</span>.load_local(
+            <span class="str">"tha_it_index"</span>, 
+            embeddings
+        )
+
+    <span class="kwd">def</span> <span class="func">ask</span>(<span class="kwd">self</span>, query):
+        <span class="cmt"># Similarity Search</span>
+        docs = <span class="kwd">self</span>.db.similarity_search(query)
+        <span class="kwd">return</span> <span class="kwd">self</span>.chain.run(docs, query)
+                </code>
+            </div>
+        </div>
+        <div class="content-pad">
+            <h2 class="accent">The Brain (Python)</h2>
+            <h3>RAG Engine Class</h3>
+            <p>หัวใจหลักของระบบที่ทำหน้าที่:</p>
+            <ul style="margin-left: 30px; font-size: 24px; color: #4b5563; margin-top: 20px;">
+                <li>โหลด Index ข้อมูลท้องถิ่น (FAISS)</li>
+                <li>ค้นหาเอกสารที่เกี่ยวข้อง (Similarity Search)</li>
+                <li>เชื่อมต่อกับ LLM เพื่อสร้างคำตอบ</li>
+            </ul>
+        </div>
+        <div class="slide-number">5</div>
+    </div>
+
+    <div class="slide grid-2">
+        <div class="content-pad">
+            <h2 class="accent">The Body (API)</h2>
+            <h3>Flask Route</h3>
+            <p>จุดเชื่อมต่อระหว่าง iOS และ Python:</p>
+            <ul style="margin-left: 30px; font-size: 24px; color: #4b5563; margin-top: 20px;">
+                <li>รับ JSON Request จาก App</li>
+                <li>ส่งข้อความเข้า RAG Engine</li>
+                <li>ส่งคืน JSON คำตอบกลับไปแสดงผล</li>
+            </ul>
+        </div>
+        <div class="content-pad" style="background: #111;">
+            <div class="code-window">
+                <div class="window-dots">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <code>
+<span class="dec">@app.route</span>(<span class="str">'/ask'</span>, methods=[<span class="str">'POST'</span>])
+<span class="kwd">def</span> <span class="func">ask_bot</span>():
+    data = request.json
+    user_msg = data[<span class="str">'message'</span>]
+    
+    <span class="cmt"># Process with RAG</span>
+    answer = rag.ask(user_msg)
+    
+    <span class="kwd">return</span> jsonify({
+        <span class="str">"reply"</span>: answer,
+        <span class="str">"status"</span>: <span class="str">"success"</span>
+    })
+                </code>
+            </div>
+        </div>
+        <div class="slide-number">6</div>
+    </div>
+
+    <div class="slide grid-2">
+        <div class="content-pad" style="background-color: #f3f4f6;">
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="chat-ui">
+                    <div style="text-align: center; font-weight: bold; padding-bottom: 10px; color: #9ca3af;">Tha It Guide</div>
+                    
+                    <div class="bubble ai">
+                        สวัสดีครับ! ผมคือผู้ช่วยข้อมูลตำบลท่าอิฐ มีอะไรให้ช่วยไหมครับ?
+                    </div>
+                    
+                    <div class="bubble user">
+                        วัดใหญ่สว่างอารมณ์ มีประวัติความเป็นมาอย่างไร?
+                    </div>
+                    
+                    <div class="bubble ai">
+                        <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--color-accent); margin-right: 5px;"></i> กำลังค้นหาข้อมูล...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-pad">
+            <h2 class="accent">Frontend (SwiftUI)</h2>
+            <h3>Native iOS Experience</h3>
+            <div style="margin-top: 20px;">
+                <div style="margin-bottom: 20px;">
+                    <i class="fa-solid fa-bolt" style="color: var(--color-accent); width: 30px;"></i> <strong>Native Performance</strong>
+                    <p style="font-size: 20px;">ลื่นไหล ตอบสนองไว ไม่กระตุก</p>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <i class="fa-solid fa-comments" style="color: var(--color-accent); width: 30px;"></i> <strong>Modern UI</strong>
+                    <p style="font-size: 20px;">ดีไซน์ Bubble chat ที่คุ้นเคย อ่านง่าย</p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-spinner" style="color: var(--color-accent); width: 30px;"></i> <strong>Reactive State</strong>
+                    <p style="font-size: 20px;">แสดงสถานะ "กำลังพิมพ์" แบบ Real-time</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">7</div>
+    </div>
+
+    <div class="slide">
+        <div style="padding: 60px 60px 0 60px; text-align: center;">
+            <h2>RAG Configuration</h2>
+            <p>การตั้งค่าเพื่อความแม่นยำสูงสุด</p>
+        </div>
+        <div class="metric-container">
+            <div>
+                <div class="metric-val">500</div>
+                <div class="metric-label">Chunk Size</div>
+                <p style="font-size: 18px; margin-top: 10px; color: #9ca3af;">Characters</p>
+            </div>
+            <div>
+                <div class="metric-val">4</div>
+                <div class="metric-label">Documents</div>
+                <p style="font-size: 18px; margin-top: 10px; color: #9ca3af;">Retrieved per query</p>
+            </div>
+            <div>
+                <div class="metric-val">0.0</div>
+                <div class="metric-label">Temperature</div>
+                <p style="font-size: 18px; margin-top: 10px; color: #9ca3af;">For factual answers</p>
+            </div>
+        </div>
+        <div class="slide-number">8</div>
+    </div>
+
+    <div class="slide slide-title" style="background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000&auto=format&fit=crop');">
+        <div style="text-align: center;">
+            <i class="fa-solid fa-rocket fa-5x" style="color: var(--color-accent); margin-bottom: 30px;"></i>
+            <h1 class="text-white">พร้อมใช้งานจริง</h1>
+            <h2 class="text-white en-font" style="font-weight: 400; margin-top: 20px; font-size: 36px;">
+                Tha It Chatbot
+            </h2>
+        </div>
+        <div class="slide-number">9</div>
+    </div>
+
+</body>
+</html>
